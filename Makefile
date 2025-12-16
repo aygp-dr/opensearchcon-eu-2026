@@ -12,7 +12,10 @@ TALKS_DIR := talks/proposals
 TEMPLATE := talks/templates/talk-template.org
 
 help: ## Show this help
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@echo "Usage: gmake [target]"
+	@echo ""
+	@echo "Targets:"
+	@awk 'BEGIN {FS = ":.*##"} /^[a-zA-Z_-]+:.*##/ {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
 
 setup: vale-sync ## Initial project setup
 	@echo "Project ready for OpenSearchCon Europe 2026!"
@@ -27,7 +30,7 @@ vale-sync: ## Download Vale packages
 
 lint: ## Lint all proposals with Vale
 	@command -v $(VALE) >/dev/null 2>&1 || { echo "Vale not found. Install: brew install vale"; exit 1; }
-	$(VALE) talks/ --glob='*.org' --glob='*.txt' --glob='*.md'
+	$(VALE) talks/
 
 lint-proposals: ## Lint only submitted proposals
 	@command -v $(VALE) >/dev/null 2>&1 || { echo "Vale not found. Install: brew install vale"; exit 1; }
