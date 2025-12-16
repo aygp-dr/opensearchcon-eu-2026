@@ -1,0 +1,91 @@
+#+TITLE: Talk Ideas for OpenSearchCon Europe 2026
+#+AUTHOR: aygp-dr
+#+DATE: 2025
+
+* Talk Ideas Brainstorm
+
+** Search & Retrieval
+
+*** Vector Search at Scale
+- Combining traditional BM25 with vector embeddings
+- Hybrid search strategies
+- Performance tuning for large vector indices
+
+*** Building RAG Pipelines with OpenSearch
+- Retrieval-Augmented Generation patterns
+- Chunking strategies for documents
+- Reranking and relevance tuning
+
+*** Semantic Search Implementation Patterns
+- Embedding model selection
+- Index design for semantic workloads
+- Query understanding and expansion
+
+** Observability
+
+*** OpenTelemetry Integration Deep Dive
+- Traces, metrics, and logs correlation
+- OpenSearch as observability backend
+- Dashboard patterns for SRE teams
+
+*** Anomaly Detection in Production
+- Using OpenSearch ML capabilities
+- Alert fatigue reduction
+- Real-world case studies
+
+** Security & Analytics
+
+*** Security Analytics with OpenSearch
+- SIEM use cases
+- Threat hunting patterns
+- Compliance and audit logging
+
+*** Log Analytics at Scale
+- Index lifecycle management
+- Query optimization techniques
+- Cost management strategies
+
+** Developer Experience
+
+*** OpenSearch Clients and SDKs
+- Python, Java, JavaScript ecosystems
+- Best practices for client configuration
+- Connection pooling and resilience
+
+*** Testing OpenSearch Applications
+- Integration testing strategies
+- Testcontainers patterns
+- Performance benchmarking
+
+** Operations
+
+*** OpenSearch on Kubernetes
+- Operator patterns
+- Scaling strategies
+- Backup and disaster recovery
+
+*** Migration Stories
+- Elasticsearch to OpenSearch migrations
+- Version upgrade strategies
+- Zero-downtime approaches
+
+* Evaluation Criteria
+
+| Criterion        | Weight |
+|------------------+--------|
+| Relevance        |    25% |
+| Originality      |    20% |
+| Practical Value  |    30% |
+| Speaker Fit      |    25% |
+
+* CFP Timeline
+
+- [ ] Review CFP requirements
+- [ ] Select top 2-3 ideas
+- [ ] Draft abstracts
+- [ ] Prepare speaker bios
+- [ ] Submit before deadline
+
+* Notes
+
+Add notes here as we develop talk ideas further.

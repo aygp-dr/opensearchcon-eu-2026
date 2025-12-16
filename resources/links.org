@@ -1,0 +1,52 @@
+#+TITLE: OpenSearchCon Europe 2026 Resources
+#+AUTHOR: aygp-dr
+
+* Official Resources
+
+** Conference
+- [[https://events.linuxfoundation.org/opensearchcon-europe/][OpenSearchCon Europe 2026]]
+- [[https://events.linuxfoundation.org/opensearchcon-europe/register/][Registration]]
+- [[https://events.linuxfoundation.org/opensearchcon-europe/program/cfp/][Call for Proposals]]
+
+** OpenSearch Project
+- [[https://opensearch.org/][OpenSearch.org]]
+- [[https://github.com/opensearch-project][GitHub Organization]]
+- [[https://opensearch.org/docs/latest/][Documentation]]
+- [[https://forum.opensearch.org/][Community Forum]]
+
+* Learning Resources
+
+** Documentation
+- [[https://opensearch.org/docs/latest/search-plugins/knn/index/][k-NN Search]]
+- [[https://opensearch.org/docs/latest/observing-your-data/][Observability]]
+- [[https://opensearch.org/docs/latest/security/][Security]]
+
+** Tutorials
+- TBD
+
+** Videos
+- [[https://www.youtube.com/@OpenSearchProject][OpenSearch YouTube Channel]]
+
+* Tools & Integrations
+
+** Clients
+- [[https://github.com/opensearch-project/opensearch-py][opensearch-py]] - Python client
+- [[https://github.com/opensearch-project/opensearch-java][opensearch-java]] - Java client
+- [[https://github.com/opensearch-project/opensearch-js][opensearch-js]] - JavaScript client
+
+** Ecosystem
+- [[https://github.com/opensearch-project/data-prepper][Data Prepper]] - Data ingestion
+- [[https://github.com/opensearch-project/OpenSearch-Dashboards][OpenSearch Dashboards]] - Visualization
+
+* Prague Travel
+
+** Getting There
+- Prague Václav Havel Airport (PRG)
+- Train connections from major European cities
+
+** Accommodation
+- TBD (check conference venue page)
+
+** Local Info
+- Currency: Czech Koruna (CZK)
+- Language: Czech (English widely spoken in tourist areas)

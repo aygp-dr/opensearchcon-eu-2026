@@ -1,0 +1,26 @@
+# Emacs
+*~
+\#*\#
+.#*
+*.bak
+
+# Org-mode
+*.org~
+*.tex
+*.pdf
+*.html
+!resources/*.pdf
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local notes (use .local suffix for private notes)
+*.local
+*.local.org

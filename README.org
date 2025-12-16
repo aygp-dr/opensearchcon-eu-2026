@@ -1,0 +1,67 @@
+#+TITLE: OpenSearchCon Europe 2026
+#+AUTHOR: aygp-dr
+#+DATE: April 16-17, 2026
+#+LOCATION: Prague, Czechia
+
+* Overview
+
+OpenSearchCon is the annual conference that brings the OpenSearch community
+together to learn, connect, and collaborate. Users, administrators, and
+developers attend to explore solutions to real-world problems, network with
+peers, and explore the future of search, observability, and security
+applications.
+
+** Event Details
+
+| Field        | Value              |
+|--------------+--------------------|
+| Dates        | April 16-17, 2026  |
+| Location     | Prague, Czechia    |
+| Website      | [[https://events.linuxfoundation.org/opensearchcon-europe/][OpenSearchCon EU]]   |
+
+** Schedule Overview
+
+*** Thursday, April 16
+- Keynotes
+- Partner Roundtable
+- Breakouts
+- Solutions Showcase
+- Unconference
+- Search Party (evening social)
+
+*** Friday, April 17
+- Keynotes
+- Breakouts
+- Solutions Showcase
+
+* Talk Proposals
+
+See [[file:talks/][talks/]] directory for our CFP submissions and talk ideas.
+
+* Conference Notes
+
+See [[file:notes/][notes/]] directory for session notes and takeaways.
+
+* Resources
+
+- [[https://events.linuxfoundation.org/opensearchcon-europe/register/][Registration]]
+- [[https://events.linuxfoundation.org/opensearchcon-europe/program/cfp/][Call for Proposals]]
+- [[https://events.linuxfoundation.org/opensearchcon-europe/sponsor/][Sponsorship]]
+
+* Repository Structure
+
+#+begin_example
+.
+├── README.org          # This file
+├── talks/              # Talk proposals and materials
+│   ├── ideas.org       # Brainstorming talk ideas
+│   └── proposals/      # Submitted CFP proposals
+├── notes/              # Conference session notes
+│   ├── day1/           # Thursday sessions
+│   └── day2/           # Friday sessions
+└── resources/          # Useful links, papers, references
+#+end_example
+
+* License
+
+MIT
