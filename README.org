@@ -3,6 +3,11 @@
 #+DATE: April 16-17, 2026
 #+LOCATION: Prague, Czechia
 
+[[https://events.linuxfoundation.org/opensearchcon-europe/][https://img.shields.io/badge/OpenSearchCon-Europe%202026-blue?style=for-the-badge&logo=opensearch]]
+[[https://events.linuxfoundation.org/opensearchcon-europe/program/cfp/][https://img.shields.io/badge/CFP-Jan%2018%202026-green?style=for-the-badge]]
+[[https://github.com/aygp-dr/opensearchcon-eu-2026][https://img.shields.io/github/license/aygp-dr/opensearchcon-eu-2026?style=for-the-badge]]
+[[https://opensearch.org/][https://img.shields.io/badge/OpenSearch-2.x-orange?style=for-the-badge&logo=opensearch]]
+
 * Overview
 
 OpenSearchCon is the annual conference that brings the OpenSearch community
@@ -13,11 +18,12 @@ applications.
 
 ** Event Details
 
-| Field        | Value              |
-|--------------+--------------------|
-| Dates        | April 16-17, 2026  |
-| Location     | Prague, Czechia    |
-| Website      | [[https://events.linuxfoundation.org/opensearchcon-europe/][OpenSearchCon EU]]   |
+| Field        | Value                |
+|--------------+----------------------|
+| Dates        | April 16-17, 2026    |
+| Location     | Prague, Czechia      |
+| CFP Deadline | January 18, 2026     |
+| Website      | [[https://events.linuxfoundation.org/opensearchcon-europe/][OpenSearchCon EU]]     |
 
 ** Schedule Overview
 
@@ -34,9 +40,82 @@ applications.
 - Breakouts
 - Solutions Showcase
 
+* OpenSearchCon Global Events
+
+** 2026 Events
+
+| Event                   | Dates           | Location          | Status      |
+|-------------------------+-----------------+-------------------+-------------|
+| OpenSearchCon China     | Mar 17-18, 2026 | Shanghai, China   | [[https://www.lfasiallc.com/opensearchcon-china/][CFP Open]]    |
+| *OpenSearchCon Europe*  | Apr 16-17, 2026 | Prague, Czechia   | [[https://events.linuxfoundation.org/opensearchcon-europe/program/cfp/][CFP Open]]    |
+| OpenSearchCon India     | Jun 15-16, 2026 | Mumbai, India     | [[https://events.linuxfoundation.org/opensearchcon-india/][Coming Soon]] |
+
+** Past Events (Reference)
+
+| Event                     | Dates           | Location              | Resources                                             |
+|---------------------------+-----------------+-----------------------+-------------------------------------------------------|
+| OpenSearchCon Europe 2025 | Apr 30-May 1    | Amsterdam, Netherlands | [[https://www.youtube.com/playlist?list=PLzgr9zSpws16qm6E3OsNqzR8iFA3eScak][Videos]] / [[https://opensearchconeu2025.sched.com/][Schedule]]                           |
+| OpenSearchCon NA 2024     | Sep 8-10, 2024  | San Jose, CA, USA     | [[https://events.linuxfoundation.org/archive/2024/opensearchcon-north-america/][Archive]]                                               |
+
+* Featured Talk Ideas
+
+Here are 5 strong talk topics we're considering for CFP submission:
+
+** 1. Building Production-Ready RAG Systems with OpenSearch
+/Track: Search & Apache Lucene/
+
+Retrieval-Augmented Generation (RAG) is transforming how we build AI applications.
+This talk covers practical patterns for building production RAG systems:
+- Chunking strategies for different document types
+- Hybrid search combining BM25 + vector similarity
+- Reranking pipelines for improved relevance
+- Evaluation frameworks and metrics (beyond just NDCG)
+
+** 2. From Elasticsearch to OpenSearch: A Migration Playbook
+/Track: Operating OpenSearch/
+
+Real-world lessons from migrating a 50TB+ Elasticsearch cluster to OpenSearch:
+- Zero-downtime migration strategies
+- Index compatibility and breaking changes
+- Performance tuning post-migration
+- Cost optimization on self-managed vs. managed services
+
+** 3. Anomaly Detection at Scale: Lessons from Production
+/Track: Analytics, Security, and Observability/
+
+Operating OpenSearch's ML-powered anomaly detection across 1000+ detectors:
+- Detector configuration best practices
+- Handling seasonality and trend changes
+- Alert fatigue reduction techniques
+- Integration with incident response workflows
+
+** 4. OpenSearch as a Vector Database: Performance Deep Dive
+/Track: Search & Apache Lucene/
+
+Benchmarking OpenSearch's k-NN capabilities against purpose-built vector DBs:
+- HNSW vs. IVF index comparison
+- Memory vs. disk trade-offs
+- Quantization techniques for scale
+- Real-world latency and recall measurements
+
+** 5. Building a Security Analytics Platform with OpenSearch
+/Track: Analytics, Security, and Observability/
+
+Architecting a SIEM-like platform using OpenSearch Security Analytics:
+- Log ingestion patterns at scale (100K+ events/sec)
+- Detection rule authoring and Sigma compatibility
+- Threat hunting workflows
+- Compliance reporting and audit trails
+
 * Talk Proposals
 
 See [[file:talks/][talks/]] directory for our CFP submissions and talk ideas.
+
+| File                           | Description                    |
+|--------------------------------+--------------------------------|
+| [[file:talks/ideas.org][talks/ideas.org]]                | Brainstorming all talk ideas   |
+| [[file:talks/templates/talk-template.org][talks/templates/talk-template.org]] | Full proposal template         |
+| [[file:talks/proposals/][talks/proposals/]]               | Submitted CFP proposals        |
 
 * Conference Notes
 
@@ -44,9 +123,15 @@ See [[file:notes/][notes/]] directory for session notes and takeaways.
 
 * Resources
 
+** Official Links
 - [[https://events.linuxfoundation.org/opensearchcon-europe/register/][Registration]]
 - [[https://events.linuxfoundation.org/opensearchcon-europe/program/cfp/][Call for Proposals]]
 - [[https://events.linuxfoundation.org/opensearchcon-europe/sponsor/][Sponsorship]]
+
+** Learning from Past Events
+- [[https://www.youtube.com/playlist?list=PLzgr9zSpws16qm6E3OsNqzR8iFA3eScak][OpenSearchCon Europe 2025 Videos]]
+- [[https://opensearchconeu2025.sched.com/][OpenSearchCon Europe 2025 Schedule]]
+- [[https://www.youtube.com/@OpenSearchProject][OpenSearch YouTube Channel]]
 
 * Repository Structure
 
@@ -58,7 +143,7 @@ See [[file:notes/][notes/]] directory for session notes and takeaways.
 ├── .vale/                  # Vale styles for CFP quality
 │   └── styles/
 │       ├── OpenSearchCon/  # Custom CFP linting rules
-│       └── Vocab/          # OpenSearch terminology
+│       └── config/         # Vocabulary definitions
 ├── talks/
 │   ├── ideas.org           # Brainstorming talk ideas
 │   ├── templates/          # Talk preparation templates
@@ -76,10 +161,13 @@ See [[file:notes/][notes/]] directory for session notes and takeaways.
 
 1. Copy the template:
    #+begin_src bash
-   cp talks/templates/talk-template.org talks/proposals/my-talk.org
+   gmake new-talk NAME=my-talk-name
    #+end_src
 
-2. Edit your proposal in Emacs/org-mode
+2. Edit your proposal in Emacs/org-mode:
+   #+begin_src bash
+   emacs talks/proposals/my-talk-name.org
+   #+end_src
 
 3. Validate with Vale:
    #+begin_src bash
@@ -91,20 +179,36 @@ See [[file:notes/][notes/]] directory for session notes and takeaways.
    M-x org-babel-tangle
    #+end_src
 
+5. Check CFP deadline:
+   #+begin_src bash
+   gmake check-deadline
+   #+end_src
+
 ** Vale Linting
 
 The project includes custom Vale rules for CFP quality:
 
 | Rule             | Purpose                                      |
 |------------------+----------------------------------------------|
-| AbstractLength   | Ensure abstract under 300 words              |
 | TechnicalTerms   | Consistent OpenSearch terminology            |
 | Buzzwords        | Flag overused marketing speak                |
 | PassiveVoice     | Encourage active, engaging writing           |
 | Hedging          | Remove weak, uncertain language              |
 | AudienceValue    | Focus on attendee benefits                   |
+| ClearTakeaways   | Strengthen vague learning outcomes           |
 
-Run =gmake lint= to check your proposals
+Run =gmake lint= to check your proposals.
+
+** Available Make Targets
+
+#+begin_src bash
+gmake help           # Show all available commands
+gmake new-talk NAME= # Create new proposal from template
+gmake lint           # Lint all talks with Vale
+gmake tangle         # Extract code from org files
+gmake export-html    # Generate HTML from proposals
+gmake check-deadline # Days until CFP closes
+#+end_src
 
 * License
 
