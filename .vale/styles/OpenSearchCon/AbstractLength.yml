@@ -1,0 +1,7 @@
+# Check abstract word count (max 300 words per CFP requirements)
+extends: metric
+message: "Abstract should be under 300 words. Current count: %s"
+link: https://events.linuxfoundation.org/opensearchcon-europe/program/cfp/
+scope: summary
+metric: words
+max: 300

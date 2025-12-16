@@ -1,0 +1,26 @@
+# Flag hedging language that weakens proposals
+extends: existence
+message: "Hedging language '%s' weakens your proposal. Be confident and direct."
+level: warning
+ignorecase: true
+tokens:
+  - sort of
+  - kind of
+  - a bit
+  - a little
+  - somewhat
+  - fairly
+  - rather
+  - quite
+  - possibly
+  - perhaps
+  - maybe
+  - might be
+  - could be
+  - seems to
+  - appears to
+  - I think
+  - I believe
+  - in my opinion
+  - basically
+  - essentially

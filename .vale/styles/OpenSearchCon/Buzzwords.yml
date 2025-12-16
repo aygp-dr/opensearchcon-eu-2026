@@ -1,0 +1,20 @@
+# Flag overused tech buzzwords that weaken proposals
+extends: existence
+message: "Consider avoiding buzzword '%s' - be specific about what you mean."
+level: warning
+ignorecase: true
+tokens:
+  - synergy
+  - leverage
+  - paradigm shift
+  - game-changing
+  - revolutionary
+  - disruptive
+  - world-class
+  - cutting-edge
+  - best-in-class
+  - next-generation
+  - mission-critical
+  - bleeding-edge
+  - thought leader
+  - move the needle

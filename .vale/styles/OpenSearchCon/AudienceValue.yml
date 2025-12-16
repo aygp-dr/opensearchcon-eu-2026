@@ -1,0 +1,12 @@
+# Encourage audience-focused language
+extends: existence
+message: "Consider adding audience value - replace '%s' with benefits for attendees."
+level: suggestion
+tokens:
+  - I will talk about
+  - I am going to discuss
+  - This talk covers
+  - This presentation is about
+  - We will look at
+  - I want to share
+  - Let me explain

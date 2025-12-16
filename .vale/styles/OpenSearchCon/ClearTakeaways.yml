@@ -1,0 +1,12 @@
+# Encourage clear, actionable takeaways
+extends: existence
+message: "Consider strengthening takeaway - '%s' is vague. Use concrete, actionable language."
+level: suggestion
+tokens:
+  - understand better
+  - learn about
+  - gain insight
+  - get familiar
+  - be introduced to
+  - have exposure to
+  - explore various

@@ -1,0 +1,28 @@
+OpenSearch
+OpenSearch Dashboards
+Lucene
+k-NN
+BM25
+HNSW
+IVF
+RAG
+LLM
+embeddings
+shards
+replicas
+indices
+mappings
+analyzers
+tokenizers
+aggregations
+ingest
+pipelines
+snapshots
+observability
+SIEM
+APM
+tracing
+metrics
+logs
+alerting
+anomaly detection

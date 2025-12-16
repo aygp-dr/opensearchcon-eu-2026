@@ -1,0 +1,19 @@
+# Flag passive voice in proposals - active voice is more engaging
+extends: existence
+message: "Passive voice detected with '%s'. Consider using active voice for stronger impact."
+level: warning
+ignorecase: true
+tokens:
+  - was created
+  - were created
+  - is used
+  - are used
+  - was implemented
+  - were implemented
+  - has been
+  - have been
+  - will be shown
+  - will be demonstrated
+  - will be discussed
+  - will be presented
+  - will be covered

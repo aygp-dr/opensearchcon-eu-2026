@@ -52,15 +52,59 @@ See [[file:notes/][notes/]] directory for session notes and takeaways.
 
 #+begin_example
 .
-├── README.org          # This file
-├── talks/              # Talk proposals and materials
-│   ├── ideas.org       # Brainstorming talk ideas
-│   └── proposals/      # Submitted CFP proposals
-├── notes/              # Conference session notes
-│   ├── day1/           # Thursday sessions
-│   └── day2/           # Friday sessions
-└── resources/          # Useful links, papers, references
+├── README.org              # This file
+├── Makefile                # Build and validation commands
+├── .vale.ini               # Vale linter configuration
+├── .vale/                  # Vale styles for CFP quality
+│   └── styles/
+│       ├── OpenSearchCon/  # Custom CFP linting rules
+│       └── Vocab/          # OpenSearch terminology
+├── talks/
+│   ├── ideas.org           # Brainstorming talk ideas
+│   ├── templates/          # Talk preparation templates
+│   │   └── talk-template.org
+│   └── proposals/          # Submitted CFP proposals
+├── notes/
+│   ├── day1/               # Thursday sessions
+│   └── day2/               # Friday sessions
+└── resources/              # Useful links, papers, references
 #+end_example
+
+* Getting Started
+
+** Creating a New Talk Proposal
+
+1. Copy the template:
+   #+begin_src bash
+   cp talks/templates/talk-template.org talks/proposals/my-talk.org
+   #+end_src
+
+2. Edit your proposal in Emacs/org-mode
+
+3. Validate with Vale:
+   #+begin_src bash
+   gmake lint
+   #+end_src
+
+4. Tangle code examples:
+   #+begin_src elisp
+   M-x org-babel-tangle
+   #+end_src
+
+** Vale Linting
+
+The project includes custom Vale rules for CFP quality:
+
+| Rule             | Purpose                                      |
+|------------------+----------------------------------------------|
+| AbstractLength   | Ensure abstract under 300 words              |
+| TechnicalTerms   | Consistent OpenSearch terminology            |
+| Buzzwords        | Flag overused marketing speak                |
+| PassiveVoice     | Encourage active, engaging writing           |
+| Hedging          | Remove weak, uncertain language              |
+| AudienceValue    | Focus on attendee benefits                   |
+
+Run =gmake lint= to check your proposals
 
 * License
 

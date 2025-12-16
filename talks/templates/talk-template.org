@@ -1,0 +1,816 @@
+#+TITLE: OpenSearchCon Europe 2026 - Talk Proposal & Materials
+#+AUTHOR: Your Name
+#+EMAIL: your.email@example.com
+#+DATE: 2025-01-16
+#+PROPERTY: header-args :mkdirp t
+#+PROPERTY: header-args:python :session *opensearch* :results output
+#+PROPERTY: header-args:mermaid :exports results :eval no-export
+#+STARTUP: overview
+#+OPTIONS: toc:2 num:t
+
+* Project Overview
+
+** Event Details
+| Field        | Value                           |
+|--------------+---------------------------------|
+| Event        | OpenSearchCon Europe 2026       |
+| Location     | Prague, Czechia                 |
+| Dates        | April 16-17, 2026               |
+| CFP Deadline | January 18, 2026, 23:59 CET     |
+| Website      | [[https://events.linuxfoundation.org/opensearchcon-europe/][OpenSearchCon Europe]]            |
+
+** Talk Format Options
+Choose one:
+- [ ] 40-minute Deep Dive
+- [ ] 20-minute Lightning Talk
+
+** Topic Track
+Select primary track:
+- [ ] Search & Apache Lucene
+- [ ] Analytics, Security, and Observability
+- [ ] Community
+- [ ] Operating OpenSearch
+
+* Proposal
+:PROPERTIES:
+:EXPORT_FILE_NAME: proposal
+:END:
+
+** Title
+#+NAME: talk-title
+#+BEGIN_EXAMPLE
+Your Talk Title Here
+#+END_EXAMPLE
+
+** Abstract (Max 300 words)
+#+NAME: abstract
+#+BEGIN_SRC text :tangle proposal/abstract.txt
+Write your compelling abstract here. Focus on:
+- The problem you're solving
+- Your approach or innovation
+- Key takeaways for the audience
+- Why this matters to the OpenSearch community
+
+[Run `vale proposal/abstract.txt` to check word count and style]
+#+END_SRC
+
+** Target Audience
+#+NAME: target-audience
+| Aspect           | Value                              |
+|------------------+------------------------------------|
+| Experience Level | Beginner / Intermediate / Advanced |
+| Primary Roles    | Developers, Operators, Architects  |
+| Prerequisites    | List any required knowledge        |
+
+** Key Takeaways
+After this session, attendees will be able to:
+1. First actionable learning outcome
+2. Second actionable learning outcome
+3. Third actionable learning outcome
+
+** Detailed Outline
+#+NAME: talk-outline
+#+BEGIN_SRC text :tangle proposal/outline.txt
+1. Introduction (5 min)
+   - Hook / attention grabber
+   - Problem statement
+   - What attendees will learn
+
+2. Background & Context (8 min)
+   - Current state of the problem
+   - Existing approaches and limitations
+   - Why OpenSearch is relevant
+
+3. Solution / Approach (15 min)
+   - Architecture overview
+   - Key implementation details
+   - Live demo or code walkthrough
+
+4. Results & Lessons Learned (10 min)
+   - Performance metrics / outcomes
+   - Challenges encountered
+   - Best practices discovered
+
+5. Conclusion & Q&A (2 min)
+   - Key takeaways recap
+   - Resources and next steps
+   - Questions
+#+END_SRC
+
+** Speaker Bio
+#+NAME: speaker-bio
+#+BEGIN_SRC text :tangle proposal/bio.txt
+Your speaker bio (2-3 sentences). Include:
+- Current role and organization
+- Relevant experience with OpenSearch/search technologies
+- Previous speaking experience (optional)
+#+END_SRC
+
+* Architecture & Design
+:PROPERTIES:
+:EXPORT_FILE_NAME: architecture
+:END:
+
+** System Architecture
+#+NAME: system-architecture
+#+BEGIN_SRC mermaid :file diagrams/system-architecture.png :exports results
+graph TB
+    subgraph Client Layer
+        A[Client Applications]
+        B[API Gateway]
+    end
+
+    subgraph OpenSearch Cluster
+        C[Coordinator Nodes]
+        D[Data Nodes]
+        E[Master Nodes]
+        F[ML Nodes]
+    end
+
+    subgraph Storage
+        G[Primary Shards]
+        H[Replica Shards]
+    end
+
+    A --> B
+    B --> C
+    C --> D
+    C --> E
+    C --> F
+    D --> G
+    D --> H
+
+    style C fill:#4051b5
+    style D fill:#00bfb3
+    style E fill:#ff9900
+    style F fill:#00bfb3
+#+END_SRC
+
+** Component Diagram
+#+NAME: component-diagram
+#+BEGIN_SRC mermaid :file diagrams/component-diagram.png :exports results
+graph LR
+    subgraph Ingestion
+        A[Data Source]
+        B[Data Prepper]
+    end
+
+    subgraph Processing
+        C[Index Manager]
+        D[Query Engine]
+    end
+
+    subgraph Output
+        E[API Response]
+        F[Dashboards]
+    end
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    D --> F
+
+    style B fill:#4051b5
+    style C fill:#00bfb3
+    style D fill:#00bfb3
+#+END_SRC
+
+** Data Flow Sequence
+#+NAME: data-flow
+#+BEGIN_SRC mermaid :file diagrams/data-flow.png :exports results
+sequenceDiagram
+    participant Client
+    participant Coordinator
+    participant DataNode
+    participant Storage
+
+    Client->>Coordinator: Search Request
+    Coordinator->>DataNode: Route Query
+    DataNode->>Storage: Fetch Documents
+    Storage-->>DataNode: Return Hits
+    DataNode-->>Coordinator: Partial Results
+    Coordinator->>Coordinator: Merge & Rank
+    Coordinator-->>Client: Final Response
+#+END_SRC
+
+* Code Examples
+:PROPERTIES:
+:EXPORT_FILE_NAME: code
+:END:
+
+** Project Setup
+#+NAME: requirements
+#+BEGIN_SRC text :tangle src/requirements.txt
+opensearch-py>=2.4.0
+python-dotenv>=1.0.0
+pytest>=7.0.0
+#+END_SRC
+
+** Configuration
+#+NAME: opensearch-config
+#+BEGIN_SRC python :tangle src/config.py
+"""OpenSearch configuration and connection setup."""
+
+from opensearchpy import OpenSearch
+from typing import Dict, Any
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+class OpenSearchConfig:
+    """Configuration manager for OpenSearch connections."""
+
+    def __init__(
+        self,
+        host: str = None,
+        port: int = None,
+        use_ssl: bool = True
+    ):
+        self.host = host or os.getenv("OPENSEARCH_HOST", "localhost")
+        self.port = port or int(os.getenv("OPENSEARCH_PORT", "9200"))
+        self.use_ssl = use_ssl
+        self._client = None
+
+    @property
+    def client(self) -> OpenSearch:
+        """Lazy initialization of OpenSearch client."""
+        if self._client is None:
+            self._client = OpenSearch(
+                hosts=[{"host": self.host, "port": self.port}],
+                http_auth=(
+                    os.getenv("OPENSEARCH_USER", "admin"),
+                    os.getenv("OPENSEARCH_PASSWORD", "admin")
+                ),
+                use_ssl=self.use_ssl,
+                verify_certs=False,
+                ssl_show_warn=False
+            )
+        return self._client
+
+    def health_check(self) -> Dict[str, Any]:
+        """Retrieve cluster health information."""
+        return self.client.cluster.health()
+
+
+if __name__ == "__main__":
+    config = OpenSearchConfig()
+    health = config.health_check()
+    print(f"Cluster: {health['cluster_name']}")
+    print(f"Status: {health['status']}")
+    print(f"Nodes: {health['number_of_nodes']}")
+#+END_SRC
+
+** Index Management
+#+NAME: index-manager
+#+BEGIN_SRC python :tangle src/index_manager.py
+"""Index creation and management utilities."""
+
+from opensearchpy import OpenSearch
+from typing import Dict, Any, Optional
+
+
+class IndexManager:
+    """Manage OpenSearch indices and mappings."""
+
+    def __init__(self, client: OpenSearch):
+        self.client = client
+
+    def create_index(
+        self,
+        index_name: str,
+        mappings: Optional[Dict[str, Any]] = None,
+        settings: Optional[Dict[str, Any]] = None
+    ) -> bool:
+        """Create a new index with specified settings and mappings."""
+        body = {
+            "settings": settings or {
+                "number_of_shards": 2,
+                "number_of_replicas": 1,
+                "refresh_interval": "1s"
+            },
+            "mappings": mappings or {
+                "properties": {
+                    "title": {"type": "text", "analyzer": "standard"},
+                    "content": {"type": "text", "analyzer": "standard"},
+                    "timestamp": {"type": "date"},
+                    "tags": {"type": "keyword"},
+                    "embedding": {
+                        "type": "knn_vector",
+                        "dimension": 768,
+                        "method": {
+                            "name": "hnsw",
+                            "space_type": "l2",
+                            "engine": "nmslib"
+                        }
+                    }
+                }
+            }
+        }
+
+        if self.client.indices.exists(index=index_name):
+            print(f"Index '{index_name}' already exists")
+            return False
+
+        response = self.client.indices.create(index=index_name, body=body)
+        return response.get("acknowledged", False)
+
+    def delete_index(self, index_name: str) -> bool:
+        """Delete an existing index."""
+        if not self.client.indices.exists(index=index_name):
+            print(f"Index '{index_name}' does not exist")
+            return False
+
+        response = self.client.indices.delete(index=index_name)
+        return response.get("acknowledged", False)
+
+    def get_mapping(self, index_name: str) -> Dict[str, Any]:
+        """Retrieve index mapping."""
+        return self.client.indices.get_mapping(index=index_name)
+#+END_SRC
+
+** Query Builder
+#+NAME: query-builder
+#+BEGIN_SRC python :tangle src/queries.py
+"""Common OpenSearch query patterns and examples."""
+
+from opensearchpy import OpenSearch
+from typing import Dict, Any, List, Optional
+
+
+class QueryBuilder:
+    """Build and execute OpenSearch queries."""
+
+    def __init__(self, client: OpenSearch):
+        self.client = client
+
+    def text_search(
+        self,
+        index: str,
+        query: str,
+        fields: List[str] = None,
+        size: int = 10
+    ) -> Dict[str, Any]:
+        """Execute a multi-match text search."""
+        body = {
+            "size": size,
+            "query": {
+                "multi_match": {
+                    "query": query,
+                    "fields": fields or ["title^2", "content"],
+                    "type": "best_fields",
+                    "fuzziness": "AUTO"
+                }
+            },
+            "highlight": {
+                "fields": {
+                    "title": {},
+                    "content": {"fragment_size": 150}
+                }
+            }
+        }
+        return self.client.search(index=index, body=body)
+
+    def vector_search(
+        self,
+        index: str,
+        vector: List[float],
+        k: int = 10,
+        field: str = "embedding"
+    ) -> Dict[str, Any]:
+        """Execute a k-NN vector similarity search."""
+        body = {
+            "size": k,
+            "query": {
+                "knn": {
+                    field: {
+                        "vector": vector,
+                        "k": k
+                    }
+                }
+            }
+        }
+        return self.client.search(index=index, body=body)
+
+    def hybrid_search(
+        self,
+        index: str,
+        query: str,
+        vector: List[float],
+        text_weight: float = 0.5,
+        vector_weight: float = 0.5
+    ) -> Dict[str, Any]:
+        """Execute a hybrid search combining text and vector similarity."""
+        body = {
+            "size": 10,
+            "query": {
+                "hybrid": {
+                    "queries": [
+                        {
+                            "multi_match": {
+                                "query": query,
+                                "fields": ["title^2", "content"]
+                            }
+                        },
+                        {
+                            "knn": {
+                                "embedding": {
+                                    "vector": vector,
+                                    "k": 10
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+        return self.client.search(index=index, body=body)
+
+    def aggregation(
+        self,
+        index: str,
+        field: str,
+        agg_type: str = "terms",
+        size: int = 10
+    ) -> Dict[str, Any]:
+        """Execute an aggregation query."""
+        body = {
+            "size": 0,
+            "aggs": {
+                f"{field}_agg": {
+                    agg_type: {
+                        "field": field,
+                        "size": size
+                    }
+                }
+            }
+        }
+        return self.client.search(index=index, body=body)
+#+END_SRC
+
+* Demo & Presentation
+:PROPERTIES:
+:EXPORT_FILE_NAME: demo
+:END:
+
+** Demo Environment Setup
+#+NAME: demo-setup
+#+BEGIN_SRC bash :tangle demo/setup.sh
+#!/usr/bin/env bash
+# Demo environment setup script
+
+set -euo pipefail
+
+echo "Setting up OpenSearchCon demo environment..."
+
+# Check prerequisites
+command -v docker >/dev/null 2>&1 || { echo "Docker required"; exit 1; }
+command -v python3 >/dev/null 2>&1 || { echo "Python 3 required"; exit 1; }
+
+# Start OpenSearch with Docker
+docker-compose -f demo/docker-compose.yml up -d
+
+# Wait for cluster to be ready
+echo "Waiting for OpenSearch cluster..."
+until curl -sk https://localhost:9200 -u admin:admin | grep -q "cluster_name"; do
+    sleep 5
+done
+
+echo "Cluster ready!"
+
+# Install Python dependencies
+pip install -r src/requirements.txt
+
+# Load sample data
+python demo/load_sample_data.py
+
+echo "Demo environment ready!"
+#+END_SRC
+
+** Docker Compose for Demo
+#+NAME: docker-compose
+#+BEGIN_SRC yaml :tangle demo/docker-compose.yml
+version: '3.8'
+services:
+  opensearch:
+    image: opensearchproject/opensearch:2.11.0
+    container_name: opensearch-demo
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Admin123!
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    ports:
+      - 9200:9200
+      - 9600:9600
+
+  dashboards:
+    image: opensearchproject/opensearch-dashboards:2.11.0
+    container_name: opensearch-dashboards-demo
+    ports:
+      - 5601:5601
+    environment:
+      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+    depends_on:
+      - opensearch
+
+volumes:
+  opensearch-data:
+#+END_SRC
+
+** Demo Script
+#+NAME: demo-script
+#+BEGIN_SRC markdown :tangle demo/SCRIPT.md
+# Live Demo Script
+
+## Pre-Demo Checklist
+- [ ] OpenSearch cluster running
+- [ ] Sample data loaded
+- [ ] Terminal windows arranged
+- [ ] Dashboards open in browser
+- [ ] Backup slides ready
+
+## Demo Flow
+
+### Part 1: Setup & Health Check (2 min)
+```python
+from config import OpenSearchConfig
+config = OpenSearchConfig()
+print(config.health_check())
+```
+
+### Part 2: Core Functionality (5 min)
+1. Show index creation
+2. Index sample documents
+3. Execute basic queries
+4. Display results with highlighting
+
+### Part 3: Advanced Features (5 min)
+1. Vector search demonstration
+2. Hybrid search comparison
+3. Aggregations and analytics
+4. Performance metrics
+
+## Fallback Plan
+If live demo fails:
+1. Switch to pre-recorded video (demo/backup-video.mp4)
+2. Use screenshot walkthrough (slides 15-20)
+3. Explain architecture with diagrams
+
+## Recovery Commands
+```bash
+# Restart cluster
+docker-compose -f demo/docker-compose.yml restart
+
+# Check logs
+docker logs opensearch-demo --tail 50
+
+# Reload data
+python demo/load_sample_data.py
+```
+#+END_SRC
+
+** Sample Data Generator
+#+NAME: sample-data
+#+BEGIN_SRC python :tangle demo/load_sample_data.py
+"""Generate and load sample data for demonstration."""
+
+import json
+import random
+from datetime import datetime, timedelta
+from typing import List, Dict, Any
+
+# Add parent directory to path for imports
+import sys
+sys.path.insert(0, '../src')
+
+from config import OpenSearchConfig
+from index_manager import IndexManager
+
+
+def generate_documents(count: int = 100) -> List[Dict[str, Any]]:
+    """Generate sample documents for demo."""
+    categories = ["search", "analytics", "observability", "security", "operations"]
+    authors = ["Alice Chen", "Bob Smith", "Carol Davis", "David Lee", "Eve Wilson"]
+
+    documents = []
+    base_date = datetime.now()
+
+    for i in range(count):
+        doc = {
+            "id": f"doc-{i:04d}",
+            "title": f"OpenSearch Best Practices: Part {i + 1}",
+            "content": f"This document covers important aspects of OpenSearch "
+                      f"including {random.choice(categories)} and {random.choice(categories)}. "
+                      f"Learn how to optimize your cluster for better performance.",
+            "author": random.choice(authors),
+            "category": random.choice(categories),
+            "timestamp": (base_date - timedelta(days=random.randint(0, 365))).isoformat(),
+            "tags": random.sample(categories, k=random.randint(1, 3)),
+            "views": random.randint(10, 10000),
+            "rating": round(random.uniform(3.0, 5.0), 1)
+        }
+        documents.append(doc)
+
+    return documents
+
+
+def load_documents(client, index_name: str, documents: List[Dict[str, Any]]) -> int:
+    """Bulk load documents into OpenSearch."""
+    from opensearchpy.helpers import bulk
+
+    actions = [
+        {
+            "_index": index_name,
+            "_id": doc["id"],
+            "_source": doc
+        }
+        for doc in documents
+    ]
+
+    success, _ = bulk(client, actions)
+    return success
+
+
+if __name__ == "__main__":
+    INDEX_NAME = "opensearchcon-demo"
+
+    # Connect to cluster
+    config = OpenSearchConfig()
+    manager = IndexManager(config.client)
+
+    # Create index
+    print(f"Creating index '{INDEX_NAME}'...")
+    manager.create_index(INDEX_NAME)
+
+    # Generate and load documents
+    print("Generating sample documents...")
+    docs = generate_documents(100)
+
+    print("Loading documents...")
+    loaded = load_documents(config.client, INDEX_NAME, docs)
+    print(f"Loaded {loaded} documents")
+
+    # Verify
+    config.client.indices.refresh(index=INDEX_NAME)
+    count = config.client.count(index=INDEX_NAME)
+    print(f"Total documents in index: {count['count']}")
+#+END_SRC
+
+* Presentation Materials
+:PROPERTIES:
+:EXPORT_FILE_NAME: slides
+:END:
+
+** Slide Outline
+#+NAME: slide-structure
+#+BEGIN_SRC markdown :tangle presentation/SLIDES.md
+# [Your Talk Title]
+## OpenSearchCon Europe 2026
+
+---
+
+## Slide 1: Title
+- Your Name
+- Role & Organization
+- Contact: @handle | email
+
+---
+
+## Slide 2: The Challenge
+- What problem are we solving?
+- Why does it matter?
+- Who experiences this pain?
+
+---
+
+## Slide 3: Current Landscape
+- Existing approaches
+- Their limitations
+- Gap in the market
+
+---
+
+## Slides 4-6: Our Approach
+- High-level architecture
+- Key innovations
+- Why OpenSearch?
+
+---
+
+## Slides 7-9: Deep Dive
+- Technical details
+- Implementation walkthrough
+- Code examples
+
+---
+
+## Slides 10-12: Live Demo
+- Setup context
+- Demonstrate key features
+- Show real results
+
+---
+
+## Slide 13: Results & Metrics
+- Performance improvements
+- Business impact
+- Lessons learned
+
+---
+
+## Slide 14: Key Takeaways
+1. First actionable insight
+2. Second actionable insight
+3. Third actionable insight
+
+---
+
+## Slide 15: Resources & Q&A
+- GitHub repo
+- Documentation links
+- Contact information
+
+Thank you!
+#+END_SRC
+
+* Resources & References
+
+** Documentation
+- [[https://opensearch.org/docs/latest/][OpenSearch Documentation]]
+- [[https://opensearch.org/docs/latest/api-reference/][API Reference]]
+- [[https://opensearch.org/docs/latest/search-plugins/knn/index/][k-NN Search Plugin]]
+- [[https://opensearch.org/docs/latest/observing-your-data/][Observability]]
+
+** Community
+- [[https://github.com/opensearch-project][OpenSearch GitHub]]
+- [[https://forum.opensearch.org/][OpenSearch Forum]]
+- [[https://opensearch.org/slack.html][OpenSearch Slack]]
+
+** References
+#+NAME: references
+#+BEGIN_SRC bibtex :tangle resources/references.bib
+@misc{opensearch2024,
+  title = {OpenSearch Documentation},
+  author = {{OpenSearch Project}},
+  year = {2024},
+  url = {https://opensearch.org/docs/}
+}
+
+@article{robertson2009bm25,
+  title = {The Probabilistic Relevance Framework: BM25 and Beyond},
+  author = {Robertson, Stephen and Zaragoza, Hugo},
+  journal = {Foundations and Trends in Information Retrieval},
+  year = {2009}
+}
+#+END_SRC
+
+* Tasks & Timeline
+
+** CFP Submission Checklist [0/6]
+- [ ] Draft abstract (~250 words)
+- [ ] Write detailed outline
+- [ ] Define 3 key takeaways
+- [ ] Prepare speaker bio
+- [ ] Run Vale linter on proposal
+- [ ] Submit by January 18, 2026
+
+** Post-Acceptance Tasks [0/8]
+- [ ] Finalize talk structure
+- [ ] Create architecture diagrams
+- [ ] Write code examples
+- [ ] Build demo environment
+- [ ] Create slide deck
+- [ ] Record backup demo video
+- [ ] Practice presentation (3x)
+- [ ] Prepare Q&A responses
+
+* Notes & Scratch
+
+** Ideas Parking Lot
+- Interesting angles to explore
+- Alternative approaches considered
+- Questions from reviewers
+
+** Feedback Log
+| Date | Source | Feedback | Action |
+|------+--------+----------+--------|
+|      |        |          |        |
+
+** Version History
+| Version | Date | Changes |
+|---------+------+---------|
+| 0.1     |      | Initial draft |
+
+* Local Variables                                                  :noexport:
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:

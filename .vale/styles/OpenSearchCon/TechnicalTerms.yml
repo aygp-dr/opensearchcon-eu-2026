@@ -1,0 +1,17 @@
+# Ensure consistent capitalization of OpenSearch terms
+extends: substitution
+message: "Use '%s' instead of '%s' for consistent terminology."
+level: error
+ignorecase: false
+swap:
+  opensearch: OpenSearch
+  Opensearch: OpenSearch
+  open search: OpenSearch
+  lucene: Lucene
+  Apache lucene: Apache Lucene
+  apache Lucene: Apache Lucene
+  Elasticsearch: Elasticsearch
+  elastic search: Elasticsearch
+  k-nn: k-NN
+  knn: k-NN
+  KNN: k-NN

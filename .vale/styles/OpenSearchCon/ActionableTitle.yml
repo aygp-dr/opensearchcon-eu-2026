@@ -1,0 +1,12 @@
+# Encourage actionable, specific titles
+extends: existence
+message: "Title starts with a weak word '%s'. Consider leading with action or specific topic."
+level: suggestion
+scope: heading.h1
+tokens:
+  - A
+  - An
+  - The
+  - Some
+  - My
+  - Our
